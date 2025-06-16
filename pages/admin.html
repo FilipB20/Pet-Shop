@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dodavanje životinje | PetShop Admin</title>
+    <link rel="stylesheet" href="/styles/admin.css" />
+  
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  
+    <!-- Firebase konfiguracija -->
+    <script src="../scripts/firebaseConfig.js"></script>
+    <!-- JS za unos životinja -->
+    <script defer src="../scripts/admin.js"></script>
+  </head>
+  
+<body>
+  <header>
+    <h1><a href="../index.html" style="color: white; text-decoration: none;">PetShop</a></h1>
+
+    <nav>
+      <a href="/index.html">Početna</a>
+      <a href="admin.html">Dodaj životinju</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Dodaj novu životinju</h2>
+    <form id="forma-zivotinja">
+      <label for="vrsta">Vrsta:</label>
+      <input type="text" name="vrsta" required>
+  
+      <label for="spol">Spol:</label>
+      <input type="text" name="spol" required>
+  
+      <label for="starost">Starost:</label>
+      <input type="text" name="starost" required>
+  
+      <label for="cijena">Cijena (€):</label>
+      <input type="number" name="cijena" step="0.01" required>
+  
+      <label for="slika">URL slike:</label>
+      <input type="url" name="slika" required>
+  
+      <label for="kategorija">Kategorija:</label>
+      <select name="kategorija" required>
+        <option value="">-- Odaberi kategoriju --</option>
+        <option value="Psi">Psi</option>
+        <option value="Mačke">Mačke</option>
+        <option value="Ptice">Ptice</option>
+        <option value="Ribe">Ribe</option>
+        <option value="Glodavci">Glodavci</option>
+      </select>
+  
+      <button type="submit">Dodaj</button>
+    </form>
+    <p id="poruka"></p>
+  </main>
+  
+
+  <footer>
+    <p>&copy; 2025 PetShop</p>
+  </footer>
+</body>
+</html>

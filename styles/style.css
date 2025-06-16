@@ -1,0 +1,222 @@
+/* RESET & GLOBALNO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #007bff;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+header h1 {
+  font-size: 26px;
+  margin: 0;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffea00;
+}
+
+/* MAIN SADRŽAJ */
+main {
+  margin-top: 40px;
+}
+
+/* NASLOVI */
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.kategorija-blok {
+  margin-bottom: 40px;
+}
+
+.kategorija-blok h3 {
+  font-size: 22px;
+  color: #444;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+/* KONTEJNERI */
+.kategorija-container,
+#zivotinje-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* KARTICE ŽIVOTINJA */
+.animal-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 250px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.animal-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* GUMBI */
+button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* FILTER / SEARCH UI */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.filter-bar label {
+  font-weight: bold;
+}
+
+.filter-bar select,
+.filter-bar input,
+select {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* FORME */
+form {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 25px 30px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 14px;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 18px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  width: 100%;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* PORUKA */
+#poruka {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  color: green;
+}
+
+#naruci-btn {
+  margin-top: 30px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#naruci-btn:hover {
+  background-color: #0056b3;
+}
+
+#ukupno-prikaz h3 {
+  margin-top: 30px;
+  color: #333;
+}
+
+
+/* FOOTER */
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  color: #888;
+}
+
