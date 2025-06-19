@@ -5,29 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PetShop</title>
   <link rel="stylesheet" href="styles/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-  <!--Odkomentirati za pristup adminu <a href="pages/admin.html">Admin</a> -->
-
-  <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="scripts/firebaseConfig.js"></script> <!-- ili scripts/ ako je index.html -->
 
-<!-- Firebase konfiguracija i logika -->
-<script src="scripts/firebaseConfig.js"></script>
-<script src="scripts/database.js"></script>
-<script defer src="scripts/script.js"></script>
-
+  <script src="scripts/database.js"></script>
+  <script defer src="scripts/script.js"></script>
+  
 </head>
+
 <body>
   <header>
-    <h1><a href="index.html" style="color: white; text-decoration: none;">PetShop</a></h1>
-    <nav>
-      <a href="index.html">Početna</a>
-      <a href="pages/kosarica.html">Košarica</a>
-      <a href="o-nama.html">O nama</a>
-    </nav>
-  </header>
-  
+  <h1><a href="index.html" style="color: white; text-decoration: none;">PetShop</a></h1>
+  <nav>
+    <a href="index.html">Početna</a>
+    <a href="pages/kosarica.html">Košarica</a>
+    <a href="pages/o-nama.html">O nama</a>
+    <a href="pages/login.html">Login</a>
+  </nav>
+</header>
+
 
   <main>
     <h2>Sve kategorije</h2>
@@ -35,8 +36,6 @@
       <!-- Ovdje će JS umetnuti svaku kategoriju s karticama -->
     </div>
   </main>
-  
-  
 
   <footer>
     <p>&copy; 2025 PetShop</p>

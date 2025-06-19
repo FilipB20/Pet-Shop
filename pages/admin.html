@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="hr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Dodavanje životinje | PetShop Admin</title>
-    <link rel="stylesheet" href="/styles/admin.css" />
-  
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  
-    <!-- Firebase konfiguracija -->
-    <script src="../scripts/firebaseConfig.js"></script>
-    <!-- JS za unos životinja -->
-    <script defer src="../scripts/admin.js"></script>
-  </head>
-  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dodavanje životinje | PetShop Admin</title>
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="../scripts/firebaseConfig.js"></script>
+  <script defer src="../scripts/admin.js"></script>
+
+  <script>
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user || user.email !== "admin@petshop.com") {
+        alert("Pristup dopušten samo administratoru.");
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</head>
 <body>
   <header>
     <h1><a href="../index.html" style="color: white; text-decoration: none;">PetShop</a></h1>
-
     <nav>
-      <a href="/index.html">Početna</a>
-      <a href="admin.html">Dodaj životinju</a>
+      <a href="../index.html">Početna</a>
+      <a href="kosarica.html">Košarica</a>
+      <a href="o-nama.html">O nama</a>
+      <a href="login.html">Login</a>
     </nav>
   </header>
 
@@ -31,19 +39,19 @@
     <form id="forma-zivotinja">
       <label for="vrsta">Vrsta:</label>
       <input type="text" name="vrsta" required>
-  
+
       <label for="spol">Spol:</label>
       <input type="text" name="spol" required>
-  
+
       <label for="starost">Starost:</label>
       <input type="text" name="starost" required>
-  
+
       <label for="cijena">Cijena (€):</label>
       <input type="number" name="cijena" step="0.01" required>
-  
+
       <label for="slika">URL slike:</label>
       <input type="url" name="slika" required>
-  
+
       <label for="kategorija">Kategorija:</label>
       <select name="kategorija" required>
         <option value="">-- Odaberi kategoriju --</option>
@@ -53,12 +61,11 @@
         <option value="Ribe">Ribe</option>
         <option value="Glodavci">Glodavci</option>
       </select>
-  
+
       <button type="submit">Dodaj</button>
     </form>
     <p id="poruka"></p>
   </main>
-  
 
   <footer>
     <p>&copy; 2025 PetShop</p>
