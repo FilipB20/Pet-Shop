@@ -264,7 +264,7 @@ form button:hover {
   background-color: #0c70d4;
 }
 
-/* PORUKE */
+
 #poruka {
   margin-top: 20px;
   text-align: center;
@@ -273,6 +273,7 @@ form button:hover {
   color: green;
   transition: opacity 0.3s ease;
 }
+
 
 /* FOOTER – STICKY */
 footer {

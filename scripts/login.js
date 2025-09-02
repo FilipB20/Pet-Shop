@@ -1,36 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const forma = document.getElementById("login-form");
+// scripts/login.js
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("login-form");
   const poruka = document.getElementById("login-poruka");
 
-  forma.addEventListener("submit", function (e) {
+  loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    const email = forma.email.value.trim();
-    const password = forma.password.value;
-
-    firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        poruka.textContent = "✅ Prijava uspješna. Preusmjeravanje...";
-
-        setTimeout(() => {
-          if (user.email === "admin@petshop.com") {
-            window.location.href = "admin.html";
-          } else {
-            window.location.href = "../index.html";
-          }
-        }, 1500);
-      })
-      .catch((error) => {
-        console.error("Greška:", error);
-        const kod = error.code;
-        const poruke = {
-          "auth/user-not-found": "❌ Korisnik ne postoji.",
-          "auth/wrong-password": "❌ Pogrešna lozinka.",
-          "auth/invalid-email": "❌ Neispravan email.",
-          "auth/too-many-requests": "⚠️ Previše pokušaja. Pokušajte kasnije."
-        };
-        poruka.textContent = poruke[kod] || "❌ Greška: " + kod;
-      });
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    try {
+      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+      poruka.textContent = "Prijava uspješna. Preusmjeravanje...";
+      const user = userCredential.user;
+      setTimeout(() => {
+        // Ako je admin, ide na admin, inače na početnu
+        if (user.email === "admin@petshop.com") {
+          window.location.href = "admin.html";
+        } else {
+          window.location.href = "../index.html";
+        }
+      }, 1500);
+    } catch (error) {
+      const code = error.code;
+      if (code === "auth/wrong-password") poruka.textContent = "Pogrešna lozinka.";
+      else if (code === "auth/user-not-found") poruka.textContent = "Korisnik ne postoji.";
+      else poruka.textContent = "Greška: " + code;
+    }
   });
 });
