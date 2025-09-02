@@ -1,3 +1,5 @@
+// scripts/firebaseConfig.js
+
 const firebaseConfig = {
   apiKey: "AIzaSyDMSkLgsjs_tVJCgLUKEzltEw0j2yHihBA",
   authDomain: "pet-shop-9b4fa.firebaseapp.com",
@@ -7,6 +9,6 @@ const firebaseConfig = {
   appId: "1:699425941364:web:296ec92976f82c17406e21"
 };
 
-
 firebase.initializeApp(firebaseConfig);
 window.db = firebase.firestore();
+window.auth = firebase.auth();

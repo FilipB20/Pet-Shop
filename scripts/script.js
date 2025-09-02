@@ -1,67 +1,75 @@
-function prikaziSvePoKategorijama() {
-  db.collection("zivotinje").get().then((snapshot) => {
-    const sve = {};
+// scripts/script.js
 
-    snapshot.forEach((doc) => {
-      const z = doc.data();
-      z.id = doc.id;
+document.addEventListener("DOMContentLoaded", async () => {
+  const kategorijeDiv = document.getElementById("kategorije-prikaz");
 
-      if (!sve[z.kategorija]) {
-        sve[z.kategorija] = [];
+  try {
+    const querySnapshot = await db.collection("zivotinje").get();
+    const zivotinje = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    const kategorije = {};
+    zivotinje.forEach(z => {
+      if (!kategorije[z.kategorija]) {
+        kategorije[z.kategorija] = [];
       }
-
-      sve[z.kategorija].push(z);
+      kategorije[z.kategorija].push(z);
     });
 
-    prikaziKategorije(sve);
-  });
-}
+    for (const [kategorija, lista] of Object.entries(kategorije)) {
+      const blok = document.createElement("div");
+      blok.classList.add("kategorija-blok");
 
-function prikaziKategorije(podaci) {
-  const wrapper = document.getElementById("kategorije-prikaz");
-  wrapper.innerHTML = "";
+      const naslov = document.createElement("h3");
+      naslov.textContent = kategorija;
+      blok.appendChild(naslov);
 
-  Object.keys(podaci).forEach((kategorija) => {
-    const section = document.createElement("section");
-    section.className = "kategorija-blok";
+      const container = document.createElement("div");
+      container.classList.add("kategorija-container");
 
-    const naslov = document.createElement("h3");
-    naslov.textContent = kategorija;
-    section.appendChild(naslov);
+      lista.forEach(zivotinja => {
+        const kartica = document.createElement("div");
+        kartica.classList.add("animal-card");
 
-    const container = document.createElement("div");
-    container.className = "kategorija-container";
-
-    podaci[kategorija].forEach((z) => {
-      const card = document.createElement("div");
-      card.className = "animal-card";
-
-      card.innerHTML = `
-        <img src="${z.slika}" alt="${z.vrsta}">
-        <h3>${z.vrsta}</h3>
-        <p>Spol: ${z.spol}</p>
-        <p>Starost: ${z.starost}</p>
-        <p>Cijena: ${z.cijena} €</p>
-        <button class="kosarica-gumb" data-id="${z.id}">Dodaj u košaricu</button>
-      `;
-
-      card.querySelector(".kosarica-gumb").addEventListener("click", () => {
-        dodajUKosaricu(z.id);
+        kartica.innerHTML = `
+          <img src="${zivotinja.slika}" alt="${zivotinja.vrsta}" />
+          <div class="animal-info">
+            <p><strong>Vrsta:</strong> ${zivotinja.vrsta}</p>
+            <p><strong>Spol:</strong> ${zivotinja.spol}</p>
+            <p><strong>Starost:</strong> ${zivotinja.starost}</p>
+            <p><strong>Cijena:</strong> €${zivotinja.cijena}</p>
+          </div>
+          <button onclick="dodajUKosaricu('${zivotinja.id}')">Dodaj u košaricu</button>
+        `;
+        container.appendChild(kartica);
       });
 
-      container.appendChild(card);
-    });
+      blok.appendChild(container);
+      kategorijeDiv.appendChild(blok);
+    }
 
-    section.appendChild(container);
-    wrapper.appendChild(section);
-  });
-}
+  } catch (error) {
+    console.error("Greška pri dohvaćanju:", error);
+  }
+});
 
 function dodajUKosaricu(id) {
-  let kosarica = JSON.parse(localStorage.getItem("kosarica")) || [];
-  kosarica.push(id);
-  localStorage.setItem("kosarica", JSON.stringify(kosarica));
-  alert("Životinja je dodana u košaricu.");
-}
+  const user = auth.currentUser;
+  if (!user) {
+    alert("Morate biti prijavljeni za dodavanje u košaricu.");
+    return;
+  }
 
-window.onload = prikaziSvePoKategorijama;
+  db.collection("zivotinje").doc(id).get()
+    .then(doc => {
+      if (doc.exists) {
+        const zivotinja = doc.data();
+        db.collection("kosarice")
+          .doc(user.uid)
+          .collection("stavke")
+          .add(zivotinja)
+          .then(() => {
+            alert("Dodano u košaricu!");
+          });
+      }
+    });
+}

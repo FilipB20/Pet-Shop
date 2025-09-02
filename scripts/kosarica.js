@@ -1,68 +1,47 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const container = document.getElementById("kosarica-container");
-  const ukupnoPrikaz = document.getElementById("ukupno-prikaz");
-  const naruciBtn = document.getElementById("naruci-btn");
+// scripts/kosarica.js
 
-  let kosarica = JSON.parse(localStorage.getItem("kosarica")) || [];
+document.addEventListener("DOMContentLoaded", () => {
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      document.getElementById("kosarica-container").innerHTML = "<p>Morate biti prijavljeni.</p>";
+      return;
+    }
 
-  if (kosarica.length === 0) {
-    container.innerHTML = "<p>Vaša košarica je prazna.</p>";
-    naruciBtn.style.display = "none";
-    return;
-  }
+    const kosaricaDiv = document.getElementById("kosarica-container");
+    const ukupnoPrikaz = document.getElementById("ukupno-prikaz");
 
-  let ukupno = 0;
+    db.collection("kosarice").doc(user.uid).collection("stavke").onSnapshot(snapshot => {
+      kosaricaDiv.innerHTML = "";
+      let ukupno = 0;
 
-  // Brojimo koliko puta se ID pojavljuje
-  const brojac = {};
-  kosarica.forEach(id => {
-    brojac[id] = (brojac[id] || 0) + 1;
-  });
+      snapshot.forEach(doc => {
+        const podaci = doc.data();
+        ukupno += parseFloat(podaci.cijena);
 
-  const jedinstveniId = [...new Set(kosarica)];
+        const kartica = document.createElement("div");
+        kartica.classList.add("animal-card");
 
-  const dohvaceni = jedinstveniId.map(id =>
-    db.collection("zivotinje").doc(id).get().then(doc => {
-      const data = doc.data();
-      data.id = doc.id;
-      return data;
-    })
-  );
+        kartica.innerHTML = `
+          <img src="${podaci.slika}" alt="${podaci.vrsta}" />
+          <div class="animal-info">
+            <p><strong>Vrsta:</strong> ${podaci.vrsta}</p>
+            <p><strong>Spol:</strong> ${podaci.spol}</p>
+            <p><strong>Starost:</strong> ${podaci.starost}</p>
+            <p><strong>Cijena:</strong> €${podaci.cijena}</p>
+            <button onclick="ukloniIzKosarice('${doc.id}')">Ukloni</button>
+          </div>
+        `;
+        kosaricaDiv.appendChild(kartica);
+      });
 
-  Promise.all(dohvaceni).then((zivotinje) => {
-    zivotinje.forEach((z) => {
-      const kolicina = brojac[z.id];
-      const cijenaUkupna = z.cijena * kolicina;
-      ukupno += cijenaUkupna;
-
-      const card = document.createElement("div");
-      card.className = "animal-card";
-      card.innerHTML = `
-        <img src="${z.slika}" alt="${z.vrsta}">
-        <h3>${z.vrsta}</h3>
-        <p>Spol: ${z.spol}</p>
-        <p>Starost: ${z.starost}</p>
-        <p>Cijena: ${z.cijena} €</p>
-        <p>Količina: ${kolicina}</p>
-        <p>Ukupno: ${cijenaUkupna.toFixed(2)} €</p>
-        <button onclick="ukloniIzKosarice('${z.id}')">Ukloni sve</button>
-      `;
-      container.appendChild(card);
+      ukupnoPrikaz.innerHTML = `<h3>Ukupno: €${ukupno.toFixed(2)}</h3>`;
     });
-
-    ukupnoPrikaz.innerHTML = `<h3>Ukupno za platiti: ${ukupno.toFixed(2)} €</h3>`;
-  });
-
-  naruciBtn.addEventListener("click", () => {
-    alert("✅ Narudžba je zaprimljena!");
-    localStorage.removeItem("kosarica");
-    location.reload();
   });
 });
 
 function ukloniIzKosarice(id) {
-  let kosarica = JSON.parse(localStorage.getItem("kosarica")) || [];
-  kosarica = kosarica.filter(item => item !== id);
-  localStorage.setItem("kosarica", JSON.stringify(kosarica));
-  location.reload();
+  const user = auth.currentUser;
+  if (!user) return;
+
+  db.collection("kosarice").doc(user.uid).collection("stavke").doc(id).delete();
 }
