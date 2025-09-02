@@ -14,6 +14,8 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <script src="../scripts/firebaseConfig.js"></script>
   <script defer src="../scripts/admin.js"></script>
+  <script defer src="../scripts/nav-auth.js"></script>
+
 
   <script>
     firebase.auth().onAuthStateChanged(user => {
@@ -31,8 +33,11 @@
       <a href="../index.html">Početna</a>
       <a href="kosarica.html">Košarica</a>
       <a href="o-nama.html">O nama</a>
-      <a href="login.html">Login</a>
+      <a id="loginLink" href="login.html">Prijava</a>
+      <a id="logoutLink" href="#" style="display:none">Odjavi se</a>
     </nav>
+...
+
   </header>
 
   <main>

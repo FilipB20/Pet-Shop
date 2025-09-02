@@ -16,6 +16,8 @@
 
   <script src="scripts/database.js"></script>
   <script defer src="scripts/script.js"></script>
+  <script defer src="scripts/nav-auth.js"></script>
+
   
 </head>
 
@@ -23,11 +25,12 @@
   <header>
   <h1><a href="index.html" style="color: white; text-decoration: none;">PetShop</a></h1>
   <nav>
-    <a href="index.html">Početna</a>
-    <a href="pages/kosarica.html">Košarica</a>
-    <a href="pages/o-nama.html">O nama</a>
-    <a href="pages/login.html">Login</a>
-  </nav>
+  <a href="index.html">Početna</a>
+  <a href="pages/kosarica.html">Košarica</a>
+  <a href="pages/o-nama.html">O nama</a>
+  <a id="loginLink" href="pages/login.html">Prijava</a>
+  <a id="logoutLink" href="#" style="display:none">Odjavi se</a>
+</nav>
 </header>
 
 
